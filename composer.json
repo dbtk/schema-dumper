@@ -1,0 +1,15 @@
+{
+    "name": "crodas/schema-dumper",
+    "description": "Dump Database schema in XML",
+    "authors": [
+        {
+            "name": "Cesar Rodas",
+            "email": "cesar@rodas.me"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "doctrine/dbal": "*",
+        "crodas/cli": "*"
+    }
+}
