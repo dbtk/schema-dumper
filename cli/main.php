@@ -12,6 +12,7 @@ function dump($input, $output)
     );
 
     $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+    $conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
     $sm = $conn->getSchemaManager();
 
