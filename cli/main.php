@@ -42,13 +42,10 @@ function dump($input, $output)
             $iXml->addAttribute('name', $index->getName());
             foreach (array('primary', 'unique') as $type) {
                 if ($index->{'is' . $type}()) {
-                    $iXml->addAttribute($type, $type);
+                    $iXml->addAttribute(strtolower($type), 'true');
                 }
             }
-            foreach ($index->getColumns() as $col) {
-                $cXml = $iXml->addChild('column');
-                $cXml->addAttribute('name', $col);
-            }
+            $iXml->addAttribute('columns', implode($index->getColumns(), ','));
         }
     }
 
