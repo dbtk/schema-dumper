@@ -50,6 +50,8 @@ function dump($input, $output)
     }
 
     $dom = dom_import_simplexml($xml)->ownerDocument;
+    $dom->encoding = 'utf-8';
+
     $dom->formatOutput = true;
     echo $dom->saveXML();
 }
