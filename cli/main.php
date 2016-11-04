@@ -8,7 +8,7 @@ function dump($input, $output)
 {
     $config = new \Doctrine\DBAL\Configuration();
     $connectionParams = array(
-        'url' => $input->getArgument('url')
+        'url' => $input->getArgument('url'),
     );
 
     $tableName = $input->getOption('table');
@@ -27,13 +27,19 @@ function dump($input, $output)
         }
         $tXml = $xml->addChild('table');
         $tXml->addAttribute("name", $table->getName());
-
         foreach ($table->getColumns() as $col) {
             $cXml = $tXml->addChild('column');
             $type = $col->getType()->getSQLDeclaration(['length' => $col->getLength()], $conn->getDatabasePlatform());
             $cXml->addAttribute('name', $col->getName());
             $cXml->addAttribute('type', $col->getType()->getName());
             $col->getLength() && $cXml->addAttribute('length', $col->getLength());
+            $col->getAutoincrement() && $cXml->addAttribute('autoincrement', 'true');
+            $col->getFixed() && $cXml->addAttribute('fixed', 'true');
+            $col->getPrecision() != 10 && $cXml->addAttribute('precision', $col->getPrecision());
+            $col->getScale() && $cXml->addAttribute('scale', $col->getScale());
+            !is_null($col->getDefault()) && $cXml->addAttribute('default', $col->getDefault());
+            !$col->getNotnull() && $cXml->addAttribute('notnull', 'false');
+            $col->getUnsigned() && $cXml->addAttribute('unsigned', 'true');
             $col->getComment() && $cXml->addAttribute('comment', $col->getComment());
         }
 
