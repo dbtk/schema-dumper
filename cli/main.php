@@ -21,7 +21,6 @@ function dump($input, $output)
     $xml = new SimpleXMLElement("<schema/>");
 
     foreach ($sm->listTables() as $table) {
-
         if ($tableName && $tableName !== $table->getName()) {
             continue;
         }
@@ -40,6 +39,7 @@ function dump($input, $output)
             !is_null($col->getDefault()) && $cXml->addAttribute('default', $col->getDefault());
             !$col->getNotnull() && $cXml->addAttribute('notnull', 'false');
             $col->getUnsigned() && $cXml->addAttribute('unsigned', 'true');
+            $col->hasPlatformOption('collation') && $cXml->addAttribute('collation', $col->getPlatformOption('collation'));
             $col->getComment() && $cXml->addAttribute('comment', $col->getComment());
         }
 
